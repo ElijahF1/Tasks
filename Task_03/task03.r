@@ -1,3 +1,4 @@
+setwd("/Users/efama137/Desktop/Evolution/Tasks/Task_03")
 5
 A <- 5
 A * 2
