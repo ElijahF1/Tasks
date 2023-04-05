@@ -23,7 +23,7 @@
 
 
 #CODE (below)
-#DATA ORGANIZATION
+###DATA ORGANIZATION
 setwd("/Users/efama137/Desktop/Evolution/Tasks/FinalProject/data")
 
 Data1 <- read.csv("ProjectDataPoints1.csv")
@@ -38,7 +38,6 @@ library(dplyr)
 library(hierfstat)
 library(adegenet)
 
-#Note: run mean() code with numbers (from data, even if coordinates) to double check that Data is in R correctly 
 mean(Data1[,4]) 
 mean(Data2[,3])
 summary(Data1)
@@ -94,24 +93,180 @@ head(DATA)
 summary(DATA)
 mean(DATA[,4])
 
+TrueDATA<-na.omit(DATA)
+Population<-TrueDATA[, c("POPULATION")]
+microsatellites<-TrueDATA[, c("Peq01a", "Peq01b", "Peq02a", "Peq02b", "Peq05a", "Peq05b", "Peq10a", "Peq10b", "Peq13a", "Peq13b", "Peq14a","Peq14b", "Peq15a", "Peq15b", "Peq17a", "Peq17b", "Peq18a", "Peq18b")]
+populationU <- unique(DATA$POPULATION)
 
 #STAT TESTS (Below)
-DATAanova<-aov(Peq01a ~ POPULATION, data = DATA)
-summary(DATAanova)
-DATAlm<-lm(Peq01a ~ POPULATION, data=DATA)
-summary(DATAlm)
+###ANOVA
+Peq01aANOVA<-aov(Peq01a ~ POPULATION, data = DATA)
+Peq01bANOVA<-aov(Peq01b ~ POPULATION, data = DATA)
 
+Peq02aANOVA<-aov(Peq02a ~ POPULATION, data = DATA)
+Peq02bANOVA<-aov(Peq02b ~ POPULATION, data = DATA)
+
+Peq05aANOVA<-aov(Peq05a ~ POPULATION, data = DATA)
+Peq05bANOVA<-aov(Peq05b ~ POPULATION, data = DATA)
+
+Peq10aANOVA<-aov(Peq10a ~ POPULATION, data = DATA)
+Peq10bANOVA<-aov(Peq10b ~ POPULATION, data = DATA)
+
+Peq13aANOVA<-aov(Peq13a ~ POPULATION, data = DATA)
+Peq13bANOVA<-aov(Peq13b ~ POPULATION, data = DATA)
+
+Peq14aANOVA<-aov(Peq14a ~ POPULATION, data = DATA)
+Peq14bANOVA<-aov(Peq14b ~ POPULATION, data = DATA)
+
+Peq15aANOVA<-aov(Peq15a ~ POPULATION, data = DATA)
+Peq15bANOVA<-aov(Peq15b ~ POPULATION, data = DATA)
+
+Peq17aANOVA<-aov(Peq17a ~ POPULATION, data = DATA)
+Peq17bANOVA<-aov(Peq17b ~ POPULATION, data = DATA)
+
+Peq18aANOVA<-aov(Peq18a ~ POPULATION, data = DATA)
+Peq18bANOVA<-aov(Peq18b ~ POPULATION, data = DATA)
+
+summary(Peq___ANOVA)
+
+
+###Regression Test [Not Used In Final Paper Yet]
+Peq01alm<-lm(Peq01a ~ POPULATION, data=DATA)
+Peq01blm<-lm(Peq01b ~ POPULATION, data=DATA)
+
+Peq02alm<-lm(Peq02a ~ POPULATION, data=DATA)
+Peq02blm<-lm(Peq02b ~ POPULATION, data=DATA)
+
+Peq05alm<-lm(Peq05a ~ POPULATION, data=DATA)
+Peq05blm<-lm(Peq05b ~ POPULATION, data=DATA)
+
+Peq10alm<-lm(Peq10a ~ POPULATION, data=DATA)
+Peq10blm<-lm(Peq10b ~ POPULATION, data=DATA)
+
+Peq13alm<-lm(Peq13a ~ POPULATION, data=DATA)
+Peq13blm<-lm(Peq13b ~ POPULATION, data=DATA)
+
+Peq14alm<-lm(Peq14a ~ POPULATION, data=DATA)
+Peq14blm<-lm(Peq14b ~ POPULATION, data=DATA)
+
+Peq15alm<-lm(Peq15a ~ POPULATION, data=DATA)
+Peq15blm<-lm(Peq15b ~ POPULATION, data=DATA)
+
+Peq17alm<-lm(Peq17a ~ POPULATION, data=DATA)
+Peq17blm<-lm(Peq17b ~ POPULATION, data=DATA)
+
+Peq18alm<-lm(Peq18a ~ POPULATION, data=DATA)
+Peq18blm<-lm(Peq18b ~ POPULATION, data=DATA)
+
+summary(Peq___lm)
+
+
+###PCA: microsatellite data
+pca_result <- prcomp(microsatellites, scale.=TRUE)
+summary(pca_result)
+
+####Plot principal components
+#Peq01a and Peq01b
+pdf("PCA_Peq01.pdf")
+par(mfrow=c(1,1), mar=c(5,5,2,2))
+plot(pca_result$x[,1], pca_result$x[,2], 
+     col=1:length(unique(TrueDATA$POPULATION)),
+     xlab="PC1", ylab="PC2", main="PCA of microsatellite data (Peq01)")
+legend("bottomright", legend=unique(TrueDATA$POPULATION), 
+       col=1:length(unique(TrueDATA$POPULATION)), pch=10, cex=0.5)
+dev.off()
+
+#Peq02a and Peq02b
+pdf("PCA_Peq02.pdf")
+par(mfrow=c(1,1), mar=c(5,5,2,2))
+plot(pca_result$x[,3], pca_result$x[,4],
+     col=1:length(unique(TrueDATA$POPULATION)),
+     xlab="PC1", ylab="PC2", main="PCA of microsatellite data (Peq02)")
+legend("topright", legend=unique(TrueDATA$POPULATION), 
+       col=1:length(unique(TrueDATA$POPULATION)), pch=10, cex=0.5)
+dev.off()
+
+#Peq05a and Peq05b
+pdf("PCA_Peq05.pdf")
+par(mfrow=c(1,1), mar=c(5,5,2,2))
+plot(pca_result$x[,5], pca_result$x[,6],
+     col=1:length(unique(TrueDATA$POPULATION)),
+     xlab="PC1", ylab="PC2", main="PCA of microsatellite data (Peq05)")
+legend("bottomright", legend=unique(TrueDATA$POPULATION), 
+       col=1:length(unique(TrueDATA$POPULATION)), pch=10, cex=0.5)
+dev.off()
+
+#Peq10a and Peq10b
+pdf("PCA_Peq10.pdf")
+par(mfrow=c(1,1), mar=c(5,5,2,2))
+plot(pca_result$x[,7], pca_result$x[,8], 
+     col=1:length(unique(TrueDATA$POPULATION)),
+     xlab="PC1", ylab="PC2", main="PCA of microsatellite data (Peq10)")
+legend("bottomright", legend=unique(TrueDATA$POPULATION), 
+       col=1:length(unique(TrueDATA$POPULATION)), pch=10, cex=0.5)
+dev.off()
+
+#Peq13a and Peq13b
+pdf("PCA_Peq13.pdf")
+par(mfrow=c(1,1), mar=c(5,5,2,2))
+plot(pca_result$x[,9], pca_result$x[,10],
+     col=1:length(unique(TrueDATA$POPULATION)),
+     xlab="PC1", ylab="PC2", main="PCA of microsatellite data (Peq13)")
+legend("bottomright", legend=unique(TrueDATA$POPULATION), 
+       col=1:length(unique(TrueDATA$POPULATION)), pch=10, cex=0.5)
+dev.off()
+
+#Peq14a and Peq14b
+pdf("PCA_Peq14.pdf")
+par(mfrow=c(1,1), mar=c(5,5,2,2))
+plot(pca_result$x[,11], pca_result$x[,12],
+     col=1:length(unique(TrueDATA$POPULATION)),
+     xlab="PC1", ylab="PC2", main="PCA of microsatellite data (Peq14)")
+legend("bottomleft", legend=unique(TrueDATA$POPULATION), 
+       col=1:length(unique(TrueDATA$POPULATION)), pch=10, cex=0.5)
+dev.off()
+
+#Peq15a and Peq15b
+pdf("PCA_Peq015.pdf")
+par(mfrow=c(1,1), mar=c(5,5,2,2))
+plot(pca_result$x[,13], pca_result$x[,14], 
+     col=1:length(unique(TrueDATA$POPULATION)),
+     xlab="PC1", ylab="PC2", main="PCA of microsatellite data (Peq15)")
+legend("topleft", legend=unique(TrueDATA$POPULATION), 
+       col=1:length(unique(TrueDATA$POPULATION)), pch=10, cex=0.5)
+dev.off()
+
+#Peq17a and Peq17b
+pdf("PCA_Peq17.pdf")
+par(mfrow=c(1,1), mar=c(5,5,2,2))
+plot(pca_result$x[,15], pca_result$x[,16],
+     col=1:length(unique(TrueDATA$POPULATION)),
+     xlab="PC1", ylab="PC2", main="PCA of microsatellite data (Peq17)")
+legend("topright", legend=unique(TrueDATA$POPULATION), 
+       col=1:length(unique(TrueDATA$POPULATION)), pch=10, cex=0.5)
+dev.off()
+
+#Peq18a and Peq18b
+pdf("PCA_Peq18.pdf")
+par(mfrow=c(1,1), mar=c(5,5,2,2))
+plot(pca_result$x[,17], pca_result$x[,18],
+     col=1:length(unique(TrueDATA$POPULATION)),
+     xlab="PC1", ylab="PC2", main="PCA of microsatellite data (Peq18)")
+legend("bottomright", legend=unique(TrueDATA$POPULATION), 
+       col=1:length(unique(TrueDATA$POPULATION)), pch=10, cex=0.5)
+dev.off()
 
 #GRAPHS/PLOTS (Below)
 #### Plot for the 'b' data
-pdf("ProjectPeqBplot")
+pdf("ProjectPeqBplot.pdf")
 Pops <- unique(DATA$POPULATION)
 isB <- grep("b", colnames(DATA))
 counter <- 1
 Cols <- rainbow(length(isB))
 
-par(mar=c(5,4,1,1))
-plot(0, 300, ylim=c(0, 300), xaxt="n", xlab="", ylab="", xlim=c(1,length(Pops)), type="n")
+par(mar=c(5,4,1,1), las=2)
+par(cex.axis=0.5)
+plot(0, 300, ylim=c(0, 300), xaxt="n", xlab="", ylab="Avg # Repeats", main="(Peq_b): Avg # Repeats Per Population", xlim=c(1,length(Pops)), type="n")
 axis(1, at=1:length(Pops), labels=Pops, srt=90)
 
 for (i in isB){
@@ -119,18 +274,19 @@ for (i in isB){
   points(1:length(Pops), MeansB, pch=16, col=Cols[counter])
   counter <- counter + 1
 }
+legend("topright", legend=colnames(DATA)[isB], title="PeqB", col=Cols, pch=16, cex=0.8)
 dev.off()
 
 #### Plot for the 'a' data
-pdf("ProjectPeqAplot")
+pdf("ProjectPeqAplot.pdf")
 Pops <- unique(DATA$POPULATION)
 isA <- grep("a", colnames(DATA))
 counter <- 1
-# Edit this to change colors
 Cols <- rainbow(length(isA))
 
-par(mar=c(5,4,1,1))
-plot(0, 300, ylim=c(0, 300), xaxt="n", xlab="", ylab="", xlim=c(1,length(Pops)), type="n")
+par(mar=c(5,4,1,1), las=2)
+par(cex.axis=0.5)
+plot(0, 300, ylim=c(0, 300), xaxt="n", xlab="", ylab="Avg # Repeats",main="(Peq_a): Avg # Repeats Per Population", xlim=c(1,length(Pops)), type="n")
 axis(1, at=1:length(Pops), labels=Pops, srt=90)
 
 for (i in isA){
@@ -138,8 +294,11 @@ for (i in isA){
   points(1:length(Pops), MeansA, pch=16, col=Cols[counter])
   counter <- counter + 1
 }
+legend("topright", legend=colnames(DATA)[isA], title="PeqA", col=Cols, pch=16, cex=0.8)
 dev.off()
 
+
+#boxplots [Not Used In Final Paper Yet]
 pdf("ProjectBoxplotPeq01.pdf")
 boxplot(Peq01a ~ POPULATION, data = DATA, par(las=3), par(cex.axis=0.5))
 dev.off()
@@ -165,60 +324,8 @@ boxplot(Peq17b ~ POPULATION, data = DATA, par(las=3), par(cex.axis=0.5))
 boxplot(Peq18b ~ POPULATION, data = DATA, par(las=3), par(cex.axis=0.5))
 
 
-
-
-
-
-#Work space
-
-library(learnPopGen)
-coalescent.plot(DATA)
-
-
-
-
-#Below (Disregard below): Stuff prob not used in fianl peper
-ggplot(DATA, aes(x=POPULATION, y=Peq01a)) + geom_boxplot()
-ggplot(DATA, aes(x=POPULATION, y=Peq02)) + geom_boxplot()
-ggplot(DATA, aes(x=POPULATION, y=Peq05)) + geom_boxplot()
-ggplot(DATA, aes(x=POPULATION, y=Peq10)) + geom_boxplot()
-ggplot(DATA, aes(x=POPULATION, y=Peq13)) + geom_boxplot()
-ggplot(DATA, aes(x=POPULATION, y=Peq14)) + geom_boxplot()
-ggplot(DATA, aes(x=POPULATION, y=Peq15)) + geom_boxplot()
-ggplot(DATA, aes(x=POPULATION, y=Peq17)) + geom_boxplot()
-ggplot(DATA, aes(x=POPULATION, y=Peq18)) + geom_boxplot()
-
-
-ggplot(Data1, aes(x=Population, y=Peq01a)) + geom_boxplot()
-ggplot(Data2, aes(x=POPULATION, y=Peq01)) + geom_boxplot()
-
-ggplot(Data1, aes(x=Population, y=Peq02)) + geom_boxplot()
-ggplot(Data2, aes(x=POPULATION, y=Peq02)) + geom_boxplot()
-
-ggplot(Data1, aes(x=Population, y=Peq05)) + geom_boxplot()
-ggplot(Data2, aes(x=POPULATION, y=Peq05)) + geom_boxplot()
-
-ggplot(Data1, aes(x=Population, y=Peq10)) + geom_boxplot()
-ggplot(Data2, aes(x=POPULATION, y=Peq10)) + geom_boxplot()
-
-ggplot(Data1, aes(x=Population, y=Peq13)) + geom_boxplot()
-ggplot(Data2, aes(x=POPULATION, y=Peq13)) + geom_boxplot()
-
-ggplot(Data1, aes(x=Population, y=Peq14)) + geom_boxplot()
-ggplot(Data2, aes(x=POPULATION, y=Peq14)) + geom_boxplot()
-
-ggplot(Data1, aes(x=Population, y=Peq15)) + geom_boxplot()
-ggplot(Data2, aes(x=POPULATION, y=Peq15)) + geom_boxplot()
-
-ggplot(Data1, aes(x=Population, y=Peq17)) + geom_boxplot()
-ggplot(Data2, aes(x=POPULATION, y=Peq17)) + geom_boxplot()
-
-ggplot(Data1, aes(x=Population, y=Peq18)) + geom_boxplot()
-ggplot(Data2, aes(x=POPULATION, y=Peq18)) + geom_boxplot()
-
-
-Data1<-subset(Data1, select = -c(X))
-Data1<-subset(Data1, select = -c(Sample.site, Peq03, Peq04, Peq06, Peq08, Peq09, Peq11, Peq12, Peq19, Peq20, X.1, X.2, X.3, X.4, X.5, X.6, X.7, X.8, X.9, X.10, X.11, X.12, X.13, X.14, X.15, X.16, X.17))
-Data2<-subset(Data2, select = -c(Peq07, X, X.1, X.2, X.3, X.4, X.5, X.6, X.7, X.8, X.9))
-
-
+library(reshape2)
+library(scales)
+library(RColorBrewer)
+library(adegenet)
+library(poppr)
