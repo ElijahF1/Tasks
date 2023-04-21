@@ -128,6 +128,16 @@ Peq18aANOVA<-aov(Peq18a ~ POPULATION, data = DATA)
 Peq18bANOVA<-aov(Peq18b ~ POPULATION, data = DATA)
 
 summary(Peq___ANOVA)
+summary(Peq01aANOVA)
+
+#AMOVA
+library(vegan)
+packageVersion("vegan")
+install.packages(("vegan"))
+Ranges_AMOVA<-vegdist(TrueDATA[,3:ncol(TrueDATA)], method="bray")
+AMOVA<-amova(Ranges_AMOVA, grouping=data.frame(POPULATION = TrueDATA$POPULATION))
+
+
 
 
 ###Regression Test [Not Used In Final Paper Yet]
